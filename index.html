@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="it"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#081323"><meta name="color-scheme" content="dark">
+<title>Giulio MoneyLAB — Anteprima</title>
+<meta name="robots" content="noindex,nofollow">
+<style>:root{font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;color:#e8f0fb;background:#07111f;--muted:#8fa0b9;--panel:#132237;--border:#263951;--accent:#66dcc2;--cyan:#79bffa}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(ellipse at 100% -10%,#163855 0%,transparent 53%),#07111f}button{font:inherit;color:inherit;cursor:pointer}.app-shell{max-width:660px;margin:auto;min-height:100dvh;display:flex;flex-direction:column;padding:18px 18px max(16px,env(safe-area-inset-bottom))}
+.header{display:flex;align-items:center;gap:11px;padding:8px 2px 21px}.logo{width:42px;height:42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(140deg,#64e1c9,#58aef0);color:#071625;font-weight:900;font-size:24px;box-shadow:0 4px 28px #0acba720}.brand{display:flex;flex-direction:column;gap:3px}.brand strong{font-size:14px;letter-spacing:.07em}.brand strong span{color:var(--accent)}.brand small{color:var(--muted);font-size:11px}.preview{margin-left:auto;font-size:9px;letter-spacing:.12em;border:1px solid #a67c40;color:#ffca7d;border-radius:99px;padding:6px 8px;white-space:nowrap}
+.main{flex:1}.eyebrow{text-transform:uppercase;letter-spacing:.17em;font-weight:700;font-size:10px;color:var(--accent);margin:9px 0}.heading{font-size:clamp(28px,7vw,35px);line-height:1.14;letter-spacing:-.04em;margin:6px 0 8px}.description{color:var(--muted);font-size:13px;line-height:1.5;margin:0 0 22px}.section-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.menu-card{background:linear-gradient(155deg,#172b41,#102034);border:1px solid var(--border);border-radius:18px;text-align:left;display:flex;flex-direction:column;gap:10px;min-height:143px;padding:17px;position:relative;transition:transform .1s,border-color .15s}.menu-card:active,.item-button:active{transform:scale(.985)}.menu-card:focus-visible,.item-button:focus-visible,.bottom-nav button:focus-visible{outline:2px solid var(--accent);outline-offset:3px}.menu-card .emoji{font-size:25px;line-height:1}.menu-card strong{font-size:15px}.menu-card small{color:var(--muted);font-size:11px;line-height:1.35}.menu-card .chev{position:absolute;bottom:12px;right:14px;color:#63819f}.menu-card.full{grid-column:span 2;min-height:100px}.menu-card.full strong{margin-top:-2px}.menu-card.full .emoji{position:absolute;right:22px;top:30px;font-size:29px}.menu-card.full small{max-width:75%}
+.status-panel{display:flex;align-items:flex-start;gap:11px;background:#102938;border:1px solid #235166;border-radius:14px;padding:14px;margin:22px 0 18px}.status-panel svg{flex-shrink:0}.status-panel p{margin:0;color:#a6c1d0;font-size:12px;line-height:1.55}.status-panel strong{color:#d8e9f0;display:block;margin-bottom:3px}.breadcrumb{color:var(--muted);font-size:12px;margin:5px 0 14px}.item-list{display:grid;gap:9px}.item-button{width:100%;display:flex;align-items:center;justify-content:space-between;text-align:left;padding:17px 16px;background:#142439;border:1px solid var(--border);border-radius:14px;min-height:55px}.item-button strong{font-size:14px;font-weight:600}.item-button span{color:#8ca6c1}.info-block{border:1px solid var(--border);border-radius:17px;background:#132136;padding:20px;margin-top:22px}.info-block h3{font-size:15px;margin:0 0 8px}.info-block p{font-size:13px;color:var(--muted);line-height:1.55;margin:0}.pill{display:inline-block;border:1px solid #456378;border-radius:10px;font-size:11px;padding:5px 8px;color:#a3d4de;margin:12px 0}.bottom-nav{display:flex;gap:10px;margin-top:23px}.bottom-nav button{flex:1;border:1px solid var(--border);background:#142339;padding:14px 9px;border-radius:13px;font-size:13px}.bottom-nav button:last-child{background:#18443c;border-color:#226454}.bottom-nav button:disabled{opacity:.35;cursor:not-allowed}.loading{color:var(--muted);padding:40px 0}.list-meta{color:#617c99;font-size:11px;margin:9px 0 14px}::selection{background:#276c71}
+@media(min-width:600px){.menu-card{min-height:159px}.menu-card.full{min-height:113px}}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+
+
+</head><body>
+<div class="app-shell">
+  <header class="header">
+    <div class="logo" aria-hidden="true">M</div>
+    <div class="brand"><strong>GIULIO <span>MONEYLAB</span></strong><small>Centro di controllo</small></div>
+    <span class="preview" id="mode-badge">ANTEPRIMA</span>
+  </header>
+  <main id="root" class="main" aria-live="polite">
+    <div class="loading">Caricamento menu…</div>
+  </main>
+  <nav class="bottom-nav" aria-label="Navigazione">
+    <button id="back-btn" type="button" disabled>← Indietro</button>
+    <button id="home-btn" type="button">⌂ Menu principale</button>
+  </nav>
+</div>
+<script>
+/* MoneyLAB GitHub Pages: anteprima PUBBLICA e solo navigazione.
+   Nessuna credenziale, nessun backend, nessuna chiamata a API. */
+'use strict';
+let menu = null;
+let path = [];
+const root = document.getElementById('root');
+const badge = document.getElementById('mode-badge');
+const back = document.getElementById('back-btn');
+const home = document.getElementById('home-btn');
+const descriptions = {
+ trading:'Analisi tecnica, opzioni e gestione Wheel.',
+ investments:'Accumulo e ingressi a sconto nel lungo periodo.',
+ portfolio:'Capitale, rischio, simulazioni e diario.',
+ crypto:'Cicli, portafoglio e rendimenti crypto.',
+ system:'Agenti, API, costi e impostazioni.'
+};
+const ICONS = {trading:'📈',investments:'💰',portfolio:'💼',crypto:'₿',system:'🤖'};
+const el=(tag,cls,txt)=>{const x=document.createElement(tag);if(cls)x.className=cls;if(txt!==undefined)x.textContent=txt;return x};
+function go(target){ path = target;render(); window.scrollTo(0,0); }
+function render(){
+ if(!menu)return;
+ root.replaceChildren();
+ const section=menu.sections.find(s=>s.id===path[0]);
+ const item=section?.items.find(i=>i.id===path[1]);
+ root.append(el('div','eyebrow',item?'Modulo MoneyLAB':section?'Area investimenti':'Panoramica'));
+ root.append(el('h1','heading',item?item.label:section?section.label:'Tutte le tue strategie. Un solo posto.'));
+ root.append(el('p','description',item?'Il modulo verrà collegato agli strumenti MoneyLAB dopo le verifiche.':section?descriptions[section.id]:'Consulta le sezioni del tuo ecosistema finanziario. La navigazione non utilizza modelli AI.'));
+ if(!section){
+  const grid=el('div','section-grid');
+  menu.sections.forEach((s,i)=>{const b=el('button','menu-card'+(i===4?' full':''));b.type='button';b.append(el('span','emoji',ICONS[s.id]||'◈'),el('strong','',s.label),el('small','',descriptions[s.id]||''),el('span','chev','↗'));b.onclick=()=>go([s.id]);grid.append(b)});
+  root.append(grid);
+ }else if(!item){
+  root.append(el('div','breadcrumb','Menu  /  '+section.label));
+  const list=el('div','item-list');
+  section.items.forEach(i=>{const b=el('button','item-button');b.type='button';b.append(el('strong','',i.label),el('span','', '›'));b.onclick=()=>go([section.id,i.id]);list.append(b)});
+  root.append(el('p','list-meta',section.items.length+' sezioni disponibili in anteprima'),list);
+ }else{
+  root.append(el('div','breadcrumb','Menu / '+section.label+' / '+item.label));
+  const p=el('section','info-block');p.append(el('h3','','🔒 Collegamento non attivato'),el('p','','Questa è un’anteprima di navigazione. I dati reali, gli agenti AI, gli ordini e le chiamate API sono disattivati. Nessuna spesa aggiuntiva può essere generata da questa schermata.'));
+  root.append(p);
+ }
+ const state=el('div','status-panel');
+ const body=el('div');body.append(el('strong','','Modalità sicura · Solo anteprima'),el('p','','Menu dimostrativo. Nessun collegamento al bot operativo, a OpenClaw o a servizi finanziari.'));
+ state.append(el('span','','🛡️'),body); root.append(state);
+ back.disabled=path.length===0;
+}
+back.onclick=()=>{ if(path.length)go(path.slice(0,-1)); };
+home.onclick=()=>go([]);
+menu = {"version":1,"title":"Giulio MoneyLAB","sections":[{"id":"trading","label":"📈 Trading","items":[{"id":"swing","label":"Swing Trading"},{"id":"put","label":"Opzioni Put"},{"id":"call","label":"Covered Call"},{"id":"wheel","label":"Wheel Strategy"}]},{"id":"investments","label":"💰 Investimenti","items":[{"id":"dca","label":"DCA"},{"id":"double_dca","label":"Double Down DCA"}]},{"id":"portfolio","label":"💼 Portafoglio","items":[{"id":"risk","label":"Capitale e Rischio"},{"id":"backtest","label":"Regole e Backtest"},{"id":"diary","label":"Diario Operazioni"}]},{"id":"crypto","label":"₿ Crypto","items":[{"id":"crypto_portfolio","label":"Portafoglio Crypto"},{"id":"cycles","label":"Analisi e Cicli"},{"id":"crypto_dca","label":"DCA Crypto"},{"id":"staking","label":"Staking e Rendimenti"},{"id":"wallets","label":"Exchange e Wallet"},{"id":"crypto_tax","label":"Operazioni e Fiscalità"}]},{"id":"system","label":"🤖 Sistema AI","items":[{"id":"overview","label":"Panoramica MoneyLAB"},{"id":"agents","label":"Stato Agenti"},{"id":"quotas","label":"API Quote e Consumi"},{"id":"cache","label":"Cache e Fallback"},{"id":"spend","label":"Autorizzazioni di spesa"},{"id":"alerts","label":"Alert Errori e Log"},{"id":"config","label":"Configurazioni"}]}]}; render();
+
+</script></body></html>
